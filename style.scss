@@ -1,0 +1,762 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Train+One&display=swap');
+//----------------------------------------------------
+
+$custom-color-background: #4E9F96;
+
+// .text-animation {
+//   display: block;
+//   // transform: translateY(30px);
+//   // opacity: 0;
+//   animation: banner-text-transition 2s ease-in-out 1s infinite both;
+// }
+
+// this controls the main text that appears
+@keyframes banner-text-transition-1 {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  7%, 23% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  30% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+}
+
+// this controls the text inside the blurring lines
+@keyframes banner-text-transition-2 {
+  0% {
+    transform: translate(0, 50px);
+    opacity: 0;
+  }
+  // here the text is visible
+  7% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  23% {
+    transform: translate(-50px, 0);
+    opacity: 1;
+  }
+  // here the text is visible
+  30% {
+    transform: translate(-50px, 50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0, 50px);
+    opacity: 0;
+  }
+}
+
+@keyframes banner-arrow-bounce {
+  // -50% must be there to center the arrow, pairs with left: 50%
+  0% {
+    transform: translate(-50%, 0px);
+  }
+  5% {
+    transform: translate(-50%, 5px);
+  }
+  10% {
+    transform: translate(-50%, 0px);
+  }
+  15% {
+    transform: translate(-50%, 5px);
+  }
+  20% {
+    transform: translate(-50%, 0px);
+  }
+
+  100% {
+    transform: translate(-50%, 0px);
+  }
+}
+
+// this controls the large text that slides on the background
+@keyframes banner-background-text {
+  0% {
+    transform: translateX(100vw)
+  }
+  100% {
+    // we use vh because the text height is responsive so it must slide for an amount of space proportional to it's height
+    transform: translateX(-1000vh);
+  }
+}
+@keyframes banner-glass-1 {
+  0% {
+    clip-path: polygon(-40% 0, -10% 0, 0 100%, -30% 100%);
+  }
+  20% {
+    clip-path: polygon(-40% 0, -10% 0, 0 100%, -30% 100%);
+  }
+  80% {
+    clip-path: polygon(100% 0, 130% 0, 140% 100%, 110% 100%);
+  }
+  100% {
+    clip-path: polygon(100% 0, 130% 0, 140% 100%, 110% 100%);
+  }
+}
+@keyframes banner-glass-2 {
+  0% {
+    clip-path: polygon(-30% 0, 0 0, 0 100%, -50% 100%);
+  }
+  20% {
+    clip-path: polygon(-30% 0, 0 0, 0 100%, -50% 100%);
+  }
+  80% {
+    clip-path: polygon(120% 0, 150% 0, 150% 100%, 100% 100%);
+  }
+  100% {
+    clip-path: polygon(120% 0, 150% 0, 150% 100%, 100% 100%);
+  }
+}
+
+
+html {
+  scroll-behavior: smooth;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+body {
+  font-family: "ES Build", "Matter", Inter, -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+  font-size: 16px;
+}
+
+
+.banner {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+  overflow: hidden;
+
+  .bi-arrow-down-short {
+    color: #fff;
+    font-size: 35px;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    bottom: 1%;
+    
+    animation-name: banner-arrow-bounce;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    z-index: 10;
+  }
+
+  .content {
+    height: 100%;
+    width: 100%;
+    background-color: $custom-color-background;
+    position: absolute;
+    top: 0%;
+
+    .background-text {
+      font-family: "ES Build", "Matter", Inter, -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+      font-size: 110vh;
+      line-height: 120vh;
+      color: rgba(255, 255, 255, 0.158);
+      animation-name: banner-background-text;
+      animation-duration: 60s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+  
+    .text-animations-container {
+  
+      .text-container {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        width: max-content;
+        top: 45%;
+        transform: translateY(-45%);
+        
+        span {
+          width: max-content;
+          font-size: 60px;
+          color: #fff;
+          font-family: "ES Build", "Matter", Inter, -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+
+          @media screen and (max-width: 768px) {
+            font-size: 36px;
+          }
+          @media screen and (max-width: 348px) {
+            font-size: 30px;
+          }
+        }
+        
+        .animated-text {
+          animation-name: banner-text-transition-1;
+          animation-duration: 15s;
+          animation-iteration-count: infinite;
+          animation-fill-mode: both;
+        }
+        .one-one {
+          animation-delay: 0s;
+        }
+        .one-two {
+          animation-delay: 0.1s;
+        }
+        .two-one{
+          animation-delay: 5s;
+        }
+        .two-two {
+          animation-delay: 5.1s;
+        }
+        .two-three {
+          animation-delay: 5.2s;
+        }
+        .two-four {
+          animation-delay: 5.3s;
+        }
+        .three-one {
+          animation-delay: 10s;
+        }
+        .three-two {
+          animation-delay: 10.1s;
+        }
+        .three-three {
+          animation-delay: 10.2s;
+        }
+      }
+      .text-center {
+        left: 50%;
+        transform: translate(-50%, -45%);
+        align-items: center;
+      }
+      .text-left {
+        left: 20px;
+        align-items: flex-start;
+      }
+      .text-right {
+        right: 20px;
+        align-items: flex-end;
+      }
+    }
+  }
+
+  // .glass-1 {
+  //   height: 120vh;
+  //   position:absolute;
+  //   background-color: red;
+  //   z-index: 3;
+  
+  // backdrop-filter: blur(4px);
+  //   width: 150px;
+  //   transform: skewX(10deg) scale(1.9, 1);
+  // }
+
+  .glass {
+    position: absolute;
+    height: 120%;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+
+    // clip-path is here because when you load the page in the beginning, the glass occupies 100% of the viewport and blurs everything until the animation loads. This clip-path here prevents this behavior
+    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+
+    .animated-text {
+      animation-name: banner-text-transition-2 !important;
+      animation-delay: 0s;
+    }
+  }
+  #glass-1 {
+    z-index: 2;
+    top: -10%;
+
+    filter: blur(3px);
+
+    animation-name: banner-glass-1;
+    animation-timing-function: cubic-bezier(0.81, -0.01, 0.36, 1);
+  }
+  #glass-2 {
+    z-index: 3;
+    top: -5%;
+
+    filter: blur(4px);
+
+    animation-name: banner-glass-2;
+    animation-timing-function: cubic-bezier(0.94, 0.01, 1, 3.85);
+    animation-delay: 0.5s;
+  }
+  #glass-3 {
+    z-index: 2;
+    top: -10%;
+
+    filter: blur(2px);
+
+    animation-name: banner-glass-1;
+    animation-timing-function: cubic-bezier(0.81, -0.01, 0.36, 1);
+    animation-delay: 1s;
+  }
+}
+
+.section-2 {
+  width: 100%;
+
+  .orientamento-section {
+    .img-container {
+      max-height: 500px;
+      overflow: hidden;
+  
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .orientamento {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 40px 10px;
+  
+      h2 {
+        font-size: 24px;
+        font-weight: 600;
+      }
+    }
+  }
+  .cards-section {
+    // consider as 1 unit the height of the button, which is half of the height of a card. We have 4 cards, so we will have 1 unit for the first button, 4 units for two rows of cards, and another unit for the last button. The cards will have as height half of the space available in the width, so they will have a height-width ratio of 2:1
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+
+    .ad, .explore {
+      grid-column: 1 / 3;
+      grid-row-start: span 1;
+      background-color: $custom-color-background;
+    }
+    .card {
+      aspect-ratio: 1 / 2;
+      border-radius: 0;
+      border: 0;
+      grid-row-start: span 2;
+    }
+
+    .ad {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+      color: #fff;
+
+      .number {
+        font-weight: 600;
+        font-size: 50px;
+      }
+      .ondemand {
+        font-weight: 400;
+        font-size: 20px;
+      }
+    }
+    .card {
+      position: relative;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+
+      .img-container {
+        max-width: 100%;
+        max-height: auto;
+        overflow: hidden;
+        img {
+          object-fit: cover;
+          height: 100%;
+        }
+      }
+      .heading {
+        background-color: #1a1a1a;
+        color: #fff;
+        padding: 20px 20px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        min-height: 80px;
+        height: 80px;
+      }
+      .text-container-anim {
+        // position relative was not working inside a container that had position absolute. To keep the heading text overlapped with the one that is not present inside the animation, I put the h3 heading text as the last element in the div, then I gave it bottom 100%, so it will be transported just on top of its parent container. Its parent container has top:100% which brings it just below the container with the photo in it. This results in the parent container being below the container with the photo, and the heading for the animation being just on top on the one without animation.
+        position: absolute;
+        top: calc(100% - 80px);
+        bottom: 56px;
+        height: 100%;
+        max-height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: #1a1a1a;
+        color: white;
+        
+        transition: all 0.5s ease-in-out;
+        
+        p {
+          padding: 0 20px 30px 20px;
+          font-weight: 400;
+          opacity: 0;
+          transition: all 0.5s ease-in-out;
+        }
+      }
+    }
+    // card animation on hover
+    .card:hover {
+      .text-container-anim {
+        top: 0 !important;
+        overflow-y: scroll;
+
+        p {
+          opacity: 1;
+        }
+      }
+      // hide scrollabrs
+      .text-container-anim::-webkit-scrollbar{
+        display: none;
+      }
+      .text-container-anim {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    }
+    .explore {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-weight: 400;
+      font-size: 30px;
+      a {
+        text-decoration: none;
+      }
+    }
+    .hover-underline-animation {
+      display: inline-block;
+      position: relative;
+      color: #fff;
+    }
+    
+    .hover-underline-animation:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      transform: scaleX(0);
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #fff;
+      transform-origin: bottom right;
+      transition: transform 0.25s ease-out;
+    }
+    
+    .hover-underline-animation:hover:after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+
+  }
+
+  @media screen and (min-width: 768px){
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    .orientamento-section {
+      .orientamento {
+        h2 {
+          font-size: 40px;
+        }
+        p {
+          font-size: 20px;
+        }
+      }
+    }
+    .cards-section {
+      grid-template-rows: repeat(5, 1fr);
+
+      .ad, .explore {
+        grid-column: 1 / 2; 
+      }
+      .explore {
+        grid-row: 5 / 6;
+        grid-column: 2 / 3;
+      }
+    }
+  }
+  @media screen and (min-width: 992px){
+    display: grid;
+    grid-template-columns: 5fr 4fr;
+  }
+  @media screen and (min-width: 1200px){
+    display: grid;
+    grid-template-columns: 5fr 3fr;
+  }
+}
+
+.section-3 {
+  .img-container {
+    width: 100%;
+    height: 500px;
+
+    img {
+      object-fit: cover;
+      object-position: center 30%;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.section-4 {
+  display: flex;
+  flex-direction: column;
+  padding: 50px 20px;
+  gap: 60px;
+  overflow-x: hidden;
+
+  h2 {
+    font-size: 40px;
+  }
+
+
+  .carousel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+    ul {
+      display: flex;
+      gap: 20px;
+      position: relative;
+      overflow: visible;
+      padding: 0 0 0 0px;
+      transition: all 0.5s ease-in-out;
+
+      .slide {
+        min-width: 85%;
+        min-height: 300px;
+        // border: 5px solid #000;
+
+        .slide-content {
+          text-decoration: none;
+          color: #000;
+          display: flex;
+          flex-direction: column;
+          padding: 10px;
+          gap: 30px;
+
+          h3 {
+            font-size: 20px;
+            font-weight: 400;
+          }
+
+          .img-container {
+            height: 300px;
+  
+            img {
+              object-fit: cover;
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+
+      }
+      .slide-1{
+        background-color: #AB72B3;
+      }
+      .slide-2 {
+        background-color: #64AE9D;
+      }
+      .slide-3 {
+        background-color: #EC9341;
+      }
+    }
+    .buttons-container {
+      display: flex;
+      gap: 20px;
+
+      button {
+        border: none;
+        background-color: #fff;
+        font-size: 60px;
+        color: #000;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .carousel {
+      width: 100%;
+
+      ul {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
+        .slide {
+          grid-row: 1 / 2;
+          transition: transform 0.5s ease-in-out;
+
+          .slide-content {
+            padding: 30px;
+            gap: 40px;
+  
+            h3 {
+              font-size: 40px;
+            }
+          }
+        }
+        .slide-1 {
+          grid-column: 1 / 3;
+          position: relative;
+        }
+        .slide-2 {
+          grid-column: 2 / 4;
+          position: relative;
+          top: 30px;
+
+        }
+        .slide-3 {
+          grid-column: 3 / 5;
+          position: relative;
+          top: 60px;
+
+        }
+      }
+    }
+  }
+
+}
+
+.section-5 {
+  padding: 50px 20px;
+
+  h2 {
+    font-size: 40px;
+  }
+  .questions-container {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0;
+    gap: 30px;
+
+    .question {
+      filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
+      background-color: #fff;
+      padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      .title-container {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        z-index: 1;
+        background-color: #fff;
+
+        .title {
+          font-size: 20px;
+          font-weight: 500;
+          padding: 20px 0;
+          background-color: #fff;
+        }
+        .dropdown-icon {
+          cursor: pointer;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: end;
+        }
+        .bi-plus-lg {
+
+        }
+        .bi-dash-lg {
+
+          display: none;
+        }
+      }
+
+      .cutoff-text {
+        box-sizing: border-box;
+        padding: 0 0 20px 0;
+      }
+
+      .answer-container {
+        height: 0;
+        transition: all 0.5s ease-in-out;
+      }
+    }
+  }
+
+}
+
+
+
+
